@@ -40,8 +40,9 @@ class Grid(Frame):
         Frame.__init__(self, master)
         self.grid()
 
-        self.width = 20
-        self.height = 20
+        self.width = 15
+        self.height = 15
+        self.running = False
 
         self.cells = [[Cell(self, i, j) for j in range(self.width)]
                       for i in range(self.height)]
@@ -52,9 +53,11 @@ class Grid(Frame):
         self.button = Button(master=self, command=self.step, text="STEP")
         self.button.grid(row=self.height + 1, column=0,
                          columnspan=int(self.width/2))
-        self.button2 = Button(master=self, command=self.step, text="RUN/PAUSE")
+        self.button2 = Button(master=self, command=self.run, text="RUN/PAUSE")
         self.button2.grid(row=self.height + 1,
                           column=int(self.width/2), columnspan=int(self.width/2))
+
+        self.always_running()
 
     def num_neighbors(self, row, column):
         counter = 0
@@ -83,7 +86,13 @@ class Grid(Frame):
                 else:
                     self.cells[i][j].make_dead()
 
-        def run(self): pass
+    def run(self):
+        self.running = not self.running
+
+    def always_running(self):
+        if self.running:
+            self.step()
+        self.master.after(1000, self.always_running)
 
 
 def start_conway():
