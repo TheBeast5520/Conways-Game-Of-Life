@@ -34,9 +34,9 @@ class Cell(Canvas):
 
 
 class Grid(Frame):
-    # i gtg for now, keep the file saved -a
-    # grid = [[0,1],[1,0],[1,-1],[0,-1],[-1,-1]] #glider?itll move diagonally if our code works kk one sec we'll do this later
+
     def __init__(self, master):
+        self.root = Tk()
         Frame.__init__(self, master)
         self.grid()
 
@@ -49,8 +49,11 @@ class Grid(Frame):
             for j in i:
                 j.grid(row=j.row, column=j.column)
 
+
         self.button = Button(master=self, command=self.step, text="STEP")
         self.button.grid(row=self.height + 1, column=0, columnspan=self.width)
+        self.button1 = Button(master=self, command=self.run, text="RUN")
+        self.button1.grid(row=self.height+1, column=5, columnspan=self.width)
 
     def num_neighbors(self, row, column):
         counter = 0
@@ -79,6 +82,9 @@ class Grid(Frame):
                 else:
                     self.cells[i][j].make_dead()
 
+    def run(self):
+        self.step()
+        self.root.after(100, self.run)
 
 def start_conway():
     root = Tk()
