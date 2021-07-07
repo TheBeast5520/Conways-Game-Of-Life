@@ -37,6 +37,8 @@ class Grid(Frame):
     # i gtg for now, keep the file saved -a
     # grid = [[0,1],[1,0],[1,-1],[0,-1],[-1,-1]] #glider?itll move diagonally if our code works kk one sec we'll do this later
     def __init__(self, master):
+        self.root = Tk()
+        
         Frame.__init__(self, master)
         self.grid()
 
@@ -83,8 +85,9 @@ class Grid(Frame):
                 else:
                     self.cells[i][j].make_dead()
 
-        def run(self): pass
-
+    def run(self):
+        self.step()
+        self.root.after(100, self.run) #100 ms, for a smooth but not too intense animation
 
 def start_conway():
     root = Tk()
